@@ -4,6 +4,11 @@ import java.awt.*;
 import java.util.Random;
 
 // TODO: insert answers to questions (Zusatzfragen) in 'Aufgabenblatt1.md' as comment.
+// 1. Grouping of methods and variables together to form units. Example: the new Body/Vector3
+// 2. 
+// 3. The class or the object to call the method on. Object methods can be recognized by the absence of the 'static'
+//    keyword in the class definition. It also can be recognized by the capitalization (as long as you stand by the 
+//    java capitalization standards) of the first letter. Uppercase -> Class-method, lowercase -> Object-method
 
 // Simulates the formation of a massive solar system.
 public class Simulation {
