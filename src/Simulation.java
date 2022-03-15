@@ -3,9 +3,10 @@ import codedraw.CodeDraw;
 import java.awt.*;
 import java.util.Random;
 
-// TODO: insert answers to questions (Zusatzfragen) in 'Aufgabenblatt1.md' as comment.
 // 1. Grouping of methods and variables together to form units. Example: the new Body/Vector3
-// 2. 
+// 2. Hiding the internal data to keep data parity and stop unintended access to private data. This concept is used in 
+//    the classes Body/Vector3 to hide the internal data (Body: mass, massCenter, currentMovement; Vector3: x, y, z).
+//    This data can only be modified by the Object-methods.
 // 3. The class or the object to call the method on. Object methods can be recognized by the absence of the 'static'
 //    keyword in the class definition. It also can be recognized by the capitalization (as long as you stand by the 
 //    java capitalization standards) of the first letter. Uppercase -> Class-method, lowercase -> Object-method
