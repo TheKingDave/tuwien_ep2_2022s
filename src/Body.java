@@ -81,5 +81,9 @@ public class Body {
     public String toString() {
         return String.format("%f kg, position: %s m, movement: %s m/s", mass, massCenter, currentMovement);
     }
+    
+    public double mass() {
+        return mass;
+    }
 }
 
