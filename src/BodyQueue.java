@@ -50,7 +50,7 @@ public class BodyQueue {
         Body ret = bodies[0];
         
         Body[] n = new Body[bodies.length];
-        System.arraycopy(bodies, 1, n, 0, size);
+        System.arraycopy(bodies, 1, n, 0, size - 1);
         bodies = n;
         
         this.size--;

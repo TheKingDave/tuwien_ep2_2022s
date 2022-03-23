@@ -1,23 +1,59 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 // A map that associates a body with a force exerted on it. The number of
 // key-value pairs is not limited.
 //
 public class BodyForceMap {
 
     //TODO: declare variables.
+    BodyVectorPair[] pairs;
+    int size = 0;
 
     // Initializes this map with an initial capacity.
     // Precondition: initialCapacity > 0.
     public BodyForceMap(int initialCapacity) {
-
-        //TODO: define constructor.
+        if(initialCapacity <= 0) {
+            throw new IllegalArgumentException("InitialCapacity must be bigger than 0");
+        }
+        pairs = new BodyVectorPair[initialCapacity];
     }
 
     // Adds a new key-value association to this map. If the key already exists in this map,
     // the value is replaced and the old value is returned. Otherwise 'null' is returned.
     // Precondition: key != null.
     public Vector3 put(Body key, Vector3 force) {
-
-        //TODO: implement method.
+        if(key == null) {
+            throw new IllegalArgumentException("key must not be null");
+        }
+        
+        if(size + 1 > pairs.length) {
+            pairs = Arrays.copyOf(pairs, pairs.length * 2);
+        }
+        BodyVectorPair toInsert = new BodyVectorPair(key, force);
+        
+        int left = 0;
+        int right = size - 1;
+        
+        while(left <= right) {
+            int middle = left + ((right - left) / 2);
+            BodyVectorPair m = pairs[middle];
+            if(m.getKey() == key) {
+                Vector3 ret = m.getValue();
+                m.setValue(force);
+                return ret;
+            }
+            if(pairs[middle].getKey().mass() < toInsert.getKey().mass()) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+        }
+        
+        int index = right + 1;
+        System.arraycopy(pairs, index, pairs, index+1, Math.max(size - index - 1, 1));
+        pairs[index] = toInsert;
+        size++;
         return null;
     }
 
@@ -25,8 +61,24 @@ public class BodyForceMap {
     // associated with the specified body. Returns 'null' if the key is not contained in this map.
     // Precondition: key != null.
     public Vector3 get(Body key) {
+        if(key == null) {
+            throw new IllegalArgumentException("key must not be null");
+        }
+        int left = 0;
+        int right = size - 1;
 
-        //TODO: implement method.
+        while(left <= right) {
+            int middle = left + ((right - left) / 2);
+            if(pairs[middle].getKey() == key) {
+                return pairs[middle].getValue();
+            }
+            if(pairs[middle].getKey().mass() < key.mass()) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+        }
         return null;
     }
+    
 }
