@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 // A queue of bodies. A collection designed for holding bodies prior to processing.
 // The bodies of the queue can be accessed in a FIFO (first-in-first-out) manner,
 // i.e., the body that was first inserted by 'add' is retrieved first by 'poll'.
@@ -27,16 +29,13 @@ public class BodyQueue {
             throw new IllegalArgumentException("q must not be null");
         }
         size = q.size;
-        bodies = new Body[q.bodies.length];
-        System.arraycopy(q.bodies, 0, bodies, 0, q.size);
+        bodies = Arrays.copyOf(q.bodies, q.size);
     }
 
     // Adds the specified body 'b' to this queue.
     public void add(Body b) {
         if(size + 1 >= bodies.length) {
-            Body[] n = new Body[bodies.length * 2];
-            System.arraycopy(bodies, 0, n, 0, bodies.length);
-            bodies = n;
+            bodies = Arrays.copyOf(bodies, bodies.length * 2);
         }
         bodies[this.size] = b;
         size++;
