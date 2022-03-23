@@ -50,7 +50,7 @@ public class BodyForceMap {
         }
         
         int index = right + 1;
-        System.arraycopy(pairs, index, pairs, index+1, Math.max(size - index - 1, 1));
+        System.arraycopy(pairs, index, pairs, index+1, size - index);
         pairs[index] = toInsert;
         size++;
         return null;
