@@ -1,8 +1,8 @@
-public class BodyVectorPair {
+public class MyBodyVectorPair {
     private Body key;
     private Vector3 value;
 
-    public BodyVectorPair(Body key, Vector3 value) {
+    public MyBodyVectorPair(Body key, Vector3 value) {
         this.key = key;
         this.value = value;
     }

@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 // A map that associates a body with a force exerted on it. The number of
@@ -7,7 +6,7 @@ import java.util.Arrays;
 public class BodyForceMap {
 
     //TODO: declare variables.
-    BodyVectorPair[] pairs;
+    MyBodyVectorPair[] pairs;
     int size = 0;
 
     // Initializes this map with an initial capacity.
@@ -16,7 +15,7 @@ public class BodyForceMap {
         if(initialCapacity <= 0) {
             throw new IllegalArgumentException("InitialCapacity must be bigger than 0");
         }
-        pairs = new BodyVectorPair[initialCapacity];
+        pairs = new MyBodyVectorPair[initialCapacity];
     }
 
     // Adds a new key-value association to this map. If the key already exists in this map,
@@ -30,14 +29,14 @@ public class BodyForceMap {
         if(size + 1 > pairs.length) {
             pairs = Arrays.copyOf(pairs, pairs.length * 2);
         }
-        BodyVectorPair toInsert = new BodyVectorPair(key, force);
+        MyBodyVectorPair toInsert = new MyBodyVectorPair(key, force);
         
         int left = 0;
         int right = size - 1;
         
         while(left <= right) {
             int middle = left + ((right - left) / 2);
-            BodyVectorPair m = pairs[middle];
+            MyBodyVectorPair m = pairs[middle];
             if(m.getKey() == key) {
                 Vector3 ret = m.getValue();
                 m.setValue(force);
