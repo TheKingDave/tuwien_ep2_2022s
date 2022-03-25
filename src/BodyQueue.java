@@ -49,9 +49,7 @@ public class BodyQueue {
         }
         Body ret = bodies[0];
         
-        Body[] n = new Body[bodies.length];
-        System.arraycopy(bodies, 1, n, 0, size - 1);
-        bodies = n;
+        System.arraycopy(bodies, 1, bodies, 0, size - 1);
         
         this.size--;
         return ret;
