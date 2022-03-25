@@ -29,7 +29,6 @@ public class BodyForceMap {
         if(size + 1 > pairs.length) {
             pairs = Arrays.copyOf(pairs, pairs.length * 2);
         }
-        MyBodyVectorPair toInsert = new MyBodyVectorPair(key, force);
         
         int left = 0;
         int right = size - 1;
@@ -42,7 +41,7 @@ public class BodyForceMap {
                 m.setValue(force);
                 return ret;
             }
-            if(pairs[middle].getKey().mass() < toInsert.getKey().mass()) {
+            if(m.getKey().mass() < key.mass()) {
                 right = middle - 1;
             } else {
                 left = middle + 1;
@@ -51,7 +50,7 @@ public class BodyForceMap {
         
         int index = right + 1;
         System.arraycopy(pairs, index, pairs, index+1, size - index);
-        pairs[index] = toInsert;
+        pairs[index] = new MyBodyVectorPair(key, force);;
         size++;
         return null;
     }
@@ -68,10 +67,11 @@ public class BodyForceMap {
 
         while(left <= right) {
             int middle = left + ((right - left) / 2);
-            if(pairs[middle].getKey() == key) {
+            MyBodyVectorPair m = pairs[middle];
+            if(m.getKey() == key) {
                 return pairs[middle].getValue();
             }
-            if(pairs[middle].getKey().mass() < key.mass()) {
+            if(m.getKey().mass() < key.mass()) {
                 right = middle - 1;
             } else {
                 left = middle + 1;
