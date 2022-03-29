@@ -3,14 +3,11 @@
 public class BodyLinkedList {
 
     //TODO: declare variables.
-    private MyBodyLink head;
-    private MyBodyLink tail;
+    private MyBodyLink head = null;
+    private MyBodyLink tail = null;
 
     // Initializes 'this' as an empty list.
-    public BodyLinkedList() {
-        this.head = null;
-        this.tail = null;
-    }
+    public BodyLinkedList() {}
 
     // Initializes 'this' as an independent copy of the specified list 'list'.
     // Calling methods of this list will not affect the specified list 'list'
@@ -25,7 +22,8 @@ public class BodyLinkedList {
     }
 
     private void addFirstBody(Body body) {
-
+        this.head = new MyBodyLink(body, null, null);
+        this.tail = head;
     }
 
     // Inserts the specified element 'body' at the beginning of this list.
@@ -34,44 +32,50 @@ public class BodyLinkedList {
             addFirstBody(body);
             return;
         }
+        this.head = new MyBodyLink(body, null, this.head);
     }
 
     // Appends the specified element 'body' to the end of this list.
     public void addLast(Body body) {
-
-        //TODO: implement method.
+        if(this.tail == null) {
+            addFirstBody(body);
+            return;
+        }
+        this.tail = new MyBodyLink(body, this.tail, null);
     }
 
     // Returns the last element in this list.
     // Returns 'null' if the list is empty.
     public Body getLast() {
-
-        //TODO: implement method.
-        return null;
+        return this.tail == null ? null : this.tail.getBody();
     }
 
     // Returns the first element in this list.
     // Returns 'null' if the list is empty.
     public Body getFirst() {
-
-        //TODO: implement method.
-        return null;
+        return this.head == null ? null : this.head.getBody();
     }
 
     // Retrieves and removes the first element in this list.
     // Returns 'null' if the list is empty.
     public Body pollFirst() {
-
-        //TODO: implement method.
-        return null;
+        if(this.head == null) {
+            return null;
+        }
+        MyBodyLink oldHead = this.head;
+        this.head = oldHead.getAfter();
+        return oldHead.getBody();
     }
 
     // Retrieves and removes the last element in this list.
     // Returns 'null' if the list is empty.
     public Body pollLast() {
-
-        //TODO: implement method.
-        return null;
+        if(this.tail == null) {
+            return null;
+        }
+        MyBodyLink oldTail = this.tail;
+        this.tail = oldTail.getBefore();
+        return oldTail.getBody();
     }
 
     // Inserts the specified element 'body' at the specified position in this list.

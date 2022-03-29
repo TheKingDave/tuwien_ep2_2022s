@@ -3,6 +3,12 @@ public class MyBodyLink {
     private MyBodyLink after;
     private Body body;
 
+    public MyBodyLink(Body body, MyBodyLink before, MyBodyLink after) {
+        this.before = before;
+        this.after = after;
+        this.body = body;
+    }
+
     public MyBodyLink getBefore() {
         return before;
     }
