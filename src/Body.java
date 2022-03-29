@@ -1,7 +1,5 @@
 import codedraw.CodeDraw;
 
-import java.awt.*;
-
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body {
 
@@ -73,6 +71,13 @@ public class Body {
     public void draw(CodeDraw cd) {
         cd.setColor(SpaceDraw.massToColor(mass));
         this.massCenter.drawAsFilledCircle(cd, radius());
+    }
+
+    // Switches the position of this and the given body
+    public void switchPositions(Body body) {
+        Vector3 tmpPos = this.massCenter;
+        this.massCenter = body.massCenter;
+        body.massCenter = tmpPos;
     }
 
     // Returns a string with the information about this body including
