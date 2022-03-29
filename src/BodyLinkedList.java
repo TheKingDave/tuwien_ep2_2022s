@@ -3,11 +3,13 @@
 public class BodyLinkedList {
 
     //TODO: declare variables.
+    private MyBodyLink head;
+    private MyBodyLink tail;
 
     // Initializes 'this' as an empty list.
     public BodyLinkedList() {
-
-        //TODO: define constructor.
+        this.head = null;
+        this.tail = null;
     }
 
     // Initializes 'this' as an independent copy of the specified list 'list'.
@@ -15,14 +17,23 @@ public class BodyLinkedList {
     // and vice versa.
     // Precondition: list != null.
     public BodyLinkedList(BodyLinkedList list) {
+        if(list == null) {
+            throw new IllegalArgumentException("List must not be null");
+        }
+        this.head = list.head;
+        this.tail = list.tail;
+    }
 
-        //TODO: define constructor.
+    private void addFirstBody(Body body) {
+
     }
 
     // Inserts the specified element 'body' at the beginning of this list.
     public void addFirst(Body body) {
-
-        //TODO: implement method.
+        if(head == null) {
+            addFirstBody(body);
+            return;
+        }
     }
 
     // Appends the specified element 'body' to the end of this list.
