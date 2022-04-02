@@ -107,4 +107,12 @@ public class Aufgabe3Test {
             System.out.println("Test NOT successful! Expected value: " + expected + " / Given value: " + given);
         }
     }
+    
+    public static void testValue(Vector3 given, Vector3 expected) {
+        if (given.equals(expected)) {
+            System.out.println("Successful test");
+        } else {
+            System.out.println("Test NOT successful! Expected value: " + expected + " / Given value: " + given);
+        }
+    }
 }
