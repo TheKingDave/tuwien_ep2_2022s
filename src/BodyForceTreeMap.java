@@ -4,7 +4,6 @@ import javax.swing.tree.TreeNode;
 // The number of key-value pairs is not limited.
 public class BodyForceTreeMap {
 
-    //TODO: declare variables.
     TreeNode root;
 
     // Adds a new key-value association to this map. If the key already exists in this map,
@@ -33,18 +32,17 @@ public class BodyForceTreeMap {
     // Returns a readable representation of this map, in which key-value pairs are ordered
     // descending according to the mass of the bodies.
     public String toString() {
-
-        //TODO: implement method.
-        return null;
-
+        return root.generateString();
     }
 
     private static class TreeNode {
+        private final Body body;
         private final double mass;
         private Vector3 value;
         private TreeNode left, right;
 
         public TreeNode(Body body, Vector3 value) {
+            this.body = body;
             this.mass = body.mass();
             this.value = value;
         }
@@ -77,6 +75,16 @@ public class BodyForceTreeMap {
                 right = new TreeNode(body, value);
             }
             return null;
+        }
+        
+        public String generateString() {
+            String ret = "";
+
+            if(right != null) ret += right.generateString();
+            ret += body + ": " + value + "\n";
+            if(left != null) ret += left.generateString();
+            
+            return ret;
         }
     }
 }
