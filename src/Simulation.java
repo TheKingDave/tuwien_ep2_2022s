@@ -128,10 +128,6 @@ public class Simulation {
                 // show new positions
                 cd.show();
             }
-
         }
-
     }
-
-
 }

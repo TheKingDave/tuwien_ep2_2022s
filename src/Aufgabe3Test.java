@@ -72,6 +72,8 @@ public class Aufgabe3Test {
         bfm.put(venus, venus.gravitationalForce(sun));
         bfm.put(mars, mars.gravitationalForce(sun));
         bfm.put(mercury, mercury.gravitationalForce(sun));
+        
+        System.out.print(bfm);
 
         testValue(bfm.get(earth).distanceTo(earth.gravitationalForce(sun)), 0);
         testValue(bfm.get(sun).distanceTo(sun.gravitationalForce(earth).plus(sun.gravitationalForce(venus))), 0);
@@ -79,7 +81,6 @@ public class Aufgabe3Test {
         testValue(bfm.put(earth, new Vector3(0, 0, 0)).distanceTo(earth.gravitationalForce(sun)), 0);
         testValue(bfm.get(earth).distanceTo(new Vector3(0, 0, 0)), 0);
         testValue(bfm.get(mercury), mercury.gravitationalForce(sun));
-
     }
 
     public static void testComparison(Object first, Object second, boolean expected) {
@@ -102,6 +103,14 @@ public class Aufgabe3Test {
 
     public static void testValue(double given, double expected) {
         if (given < expected + (expected + 1) / 1e12 && given > expected - (expected + 1) / 1e12) {
+            System.out.println("Successful test");
+        } else {
+            System.out.println("Test NOT successful! Expected value: " + expected + " / Given value: " + given);
+        }
+    }
+    
+    public static void testValue(Vector3 given, Vector3 expected) {
+        if (given.equals(expected)) {
             System.out.println("Successful test");
         } else {
             System.out.println("Test NOT successful! Expected value: " + expected + " / Given value: " + given);

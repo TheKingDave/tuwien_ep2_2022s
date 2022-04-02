@@ -1,5 +1,7 @@
 import codedraw.CodeDraw;
 
+import java.util.Objects;
+
 // This class represents vectors in a 3D vector space.
 public class Vector3 {
 
@@ -69,6 +71,19 @@ public class Vector3 {
     // in the form "[x,y,z]", e.g., "[1.48E11,0.0,0.0]".
     public String toString() {
         return String.format("[%f,%f,%f]", this.x, this.y, this.z);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector3 vector3 = (Vector3) o;
+        return Double.compare(vector3.x, x) == 0 && Double.compare(vector3.y, y) == 0 && Double.compare(vector3.z, z) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
     }
 }
 

@@ -72,6 +72,10 @@ public class Body {
         cd.setColor(SpaceDraw.massToColor(mass));
         this.massCenter.drawAsFilledCircle(cd, radius());
     }
+    
+    public boolean isCollidingWith(Body body) {
+        return this.distanceTo(body) < (this.radius() + body.radius());
+    }
 
     // Switches the position of this and the given body
     public void switchPositions(Body body) {
