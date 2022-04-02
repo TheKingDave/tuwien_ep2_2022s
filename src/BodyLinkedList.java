@@ -1,6 +1,9 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 // A list of bodies implemented as a linked list.
 // The number of elements of the list is not limited.
-public class BodyLinkedList {
+public class BodyLinkedList implements Iterable<Body> {
 
     private MyBodyLink head = null;
     private MyBodyLink tail = null;
@@ -159,7 +162,7 @@ public class BodyLinkedList {
         
         MyBodyLink bodyLink = this.head;
         do {
-            if(bodyLink.getBody().isCollidingWith(body)) {
+            if(bodyLink.getBody() != body && bodyLink.getBody().isCollidingWith(body)) {
                 ret.addLast(bodyLink.getBody());
                 if(bodyLink.getBefore() == null) {
                     this.pollFirst();
@@ -180,5 +183,38 @@ public class BodyLinkedList {
     // Returns the number of bodies in this list.
     public int size() {
         return size;
+    }
+
+    @Override
+    public Iterator<Body> iterator() {
+        return new BodyLinkedListIterator(this.head);
+    }
+
+    private class BodyLinkedListIterator implements Iterator<Body> {
+        private MyBodyLink bodyLink;
+
+        public BodyLinkedListIterator(MyBodyLink bodyLink) {
+            this.bodyLink = bodyLink;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return bodyLink != null;
+        }
+
+        @Override
+        public Body next() {
+            if(bodyLink == null) {
+                throw new NoSuchElementException();
+            }
+            Body ret = bodyLink.getBody();
+            bodyLink = bodyLink.getAfter();
+            return ret;
+        }
+
+        @Override
+        public void remove() {
+            Iterator.super.remove();
+        }
     }
 }
