@@ -6,7 +6,6 @@ public class SpaceDraw {
     // (It is assumed that the radius r is related to the mass m of the body by r = m ^ 0.5,
     // where m and r measured in solar units.)
     public static double massToRadius(double mass) {
-
         return Simulation.SUN_RADIUS * (Math.pow(mass / Simulation.SUN_MASS, 0.5));
     }
 
