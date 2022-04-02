@@ -74,6 +74,10 @@ public class Body {
         cd.setColor(SpaceDraw.massToColor(mass));
         this.massCenter.drawAsFilledCircle(cd, radius());
     }
+    
+    public boolean isCollidingWith(Body body) {
+        return this.distanceTo(body) < (this.radius() + body.radius());
+    }
 
     // Returns a string with the information about this body including
     // mass, position (mass center) and current movement. Example:

@@ -1,7 +1,6 @@
 import codedraw.CodeDraw;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Random;
 
 // 1. Grouping of methods and variables together to form units. Example: the new Body/Vector3
@@ -115,10 +114,6 @@ public class Simulation {
                 // show new positions
                 cd.show();
             }
-
         }
-
     }
-
-
 }
