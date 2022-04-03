@@ -13,7 +13,7 @@ public class BodyQueue {
     // Initializes this queue with an initial capacity.
     // Precondition: initialCapacity > 0.
     public BodyQueue(int initialCapacity) {
-        if(initialCapacity <= 0) {
+        if (initialCapacity <= 0) {
             throw new IllegalArgumentException("Initial Size must be bigger than 0");
         }
         this.bodies = new Body[initialCapacity];
@@ -25,7 +25,7 @@ public class BodyQueue {
     // and vice versa.
     // Precondition: q != null.
     public BodyQueue(BodyQueue q) {
-        if(q == null) {
+        if (q == null) {
             throw new IllegalArgumentException("q must not be null");
         }
         size = q.size;
@@ -34,7 +34,7 @@ public class BodyQueue {
 
     // Adds the specified body 'b' to this queue.
     public void add(Body b) {
-        if(size + 1 >= bodies.length) {
+        if (size + 1 >= bodies.length) {
             bodies = Arrays.copyOf(bodies, bodies.length * 2);
         }
         bodies[this.size] = b;
@@ -44,11 +44,11 @@ public class BodyQueue {
     // Retrieves and removes the head of this queue, or returns 'null'
     // if this queue is empty.
     public Body poll() {
-        if(this.size <= 0) {
+        if (this.size <= 0) {
             return null;
         }
         Body ret = bodies[0];
-        
+
         System.arraycopy(bodies, 1, bodies, 0, size - 1);
         
         this.size--;

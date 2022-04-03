@@ -5,9 +5,9 @@ public class Aufgabe2Test {
         //test classes BodyQueue and BodyForceMap
 
         // create three bodies
-        Body sun = new Body(1.989e30,new Vector3(0,0,0),new Vector3(0,0,0));
-        Body earth = new Body(5.972e24,new Vector3(-1.394555e11,5.103346e10,0),new Vector3(-10308.53,-28169.38,0));
-        Body mercury = new Body(3.301e23,new Vector3(-5.439054e10,9.394878e9,0),new Vector3(-17117.83,-46297.48,-1925.57));
+        Body sun = new Body(1.989e30, new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        Body earth = new Body(5.972e24, new Vector3(-1.394555e11, 5.103346e10, 0), new Vector3(-10308.53, -28169.38, 0));
+        Body mercury = new Body(3.301e23, new Vector3(-5.439054e10, 9.394878e9, 0), new Vector3(-17117.83, -46297.48, -1925.57));
 
 
         // check basic functions of 'BodyQueue'
@@ -43,12 +43,12 @@ public class Aufgabe2Test {
         bfm.put(earth, earth.gravitationalForce(sun));
         bfm.put(sun, sun.gravitationalForce(earth));
 
-        testValue(bfm.get(earth).distanceTo(earth.gravitationalForce(sun)),0);
-        testValue(bfm.get(sun).distanceTo(sun.gravitationalForce(earth)),0);
+        testValue(bfm.get(earth).distanceTo(earth.gravitationalForce(sun)), 0);
+        testValue(bfm.get(sun).distanceTo(sun.gravitationalForce(earth)), 0);
 
-        bfm.put(earth, new Vector3(0,0,0));
-        testValue(bfm.get(earth).distanceTo(new Vector3(0,0,0)), 0);
-        testValue(bfm.get(mercury),null);
+        bfm.put(earth, new Vector3(0, 0, 0));
+        testValue(bfm.get(earth).distanceTo(new Vector3(0, 0, 0)), 0);
+        testValue(bfm.get(mercury), null);
 
     }
 
@@ -71,7 +71,7 @@ public class Aufgabe2Test {
     }
 
     public static void testValue(double given, double expected) {
-        if (given < expected + (expected+1)/1e12 && given > expected - (expected+1)/1e12) {
+        if (given < expected + (expected + 1) / 1e12 && given > expected - (expected + 1) / 1e12) {
             System.out.println("Successful test");
         } else {
             System.out.println("Test NOT successful! Expected value: " + expected + " / Given value: " + given);

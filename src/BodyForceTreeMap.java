@@ -76,14 +76,14 @@ public class BodyForceTreeMap {
             }
             return null;
         }
-        
+
         public String generateString() {
             String ret = "";
 
-            if(right != null) ret += right.generateString();
+            if (right != null) ret += right.generateString();
             ret += body + ": " + value + "\n";
-            if(left != null) ret += left.generateString();
-            
+            if (left != null) ret += left.generateString();
+
             return ret;
         }
     }

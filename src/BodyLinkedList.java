@@ -10,14 +10,15 @@ public class BodyLinkedList implements Iterable<Body> {
     private int size = 0;
 
     // Initializes 'this' as an empty list.
-    public BodyLinkedList() {}
+    public BodyLinkedList() {
+    }
 
     // Initializes 'this' as an independent copy of the specified list 'list'.
     // Calling methods of this list will not affect the specified list 'list'
     // and vice versa.
     // Precondition: list != null.
     public BodyLinkedList(BodyLinkedList list) {
-        if(list == null) {
+        if (list == null) {
             throw new IllegalArgumentException("List must not be null");
         }
         this.head = list.head;
@@ -33,7 +34,7 @@ public class BodyLinkedList implements Iterable<Body> {
 
     // Inserts the specified element 'body' at the beginning of this list.
     public void addFirst(Body body) {
-        if(head == null) {
+        if (head == null) {
             addFirstBody(body);
             return;
         }
@@ -45,7 +46,7 @@ public class BodyLinkedList implements Iterable<Body> {
 
     // Appends the specified element 'body' to the end of this list.
     public void addLast(Body body) {
-        if(this.tail == null) {
+        if (this.tail == null) {
             addFirstBody(body);
             return;
         }
@@ -70,14 +71,16 @@ public class BodyLinkedList implements Iterable<Body> {
     // Retrieves and removes the first element in this list.
     // Returns 'null' if the list is empty.
     public Body pollFirst() {
-        if(this.head == null) {
+        if (this.size == 0) {
             return null;
         }
+        if (size == 1) {
+            return pollOnly();
+        }
+
         MyBodyLink oldHead = this.head;
         this.head = oldHead.getAfter();
-        if(this.head != null) {
-            this.head.setBefore(null);
-        }
+        this.head.setBefore(null);
         this.size--;
         return oldHead.getBody();
     }
@@ -85,53 +88,62 @@ public class BodyLinkedList implements Iterable<Body> {
     // Retrieves and removes the last element in this list.
     // Returns 'null' if the list is empty.
     public Body pollLast() {
-        if(this.tail == null) {
+        if (this.size == 0) {
             return null;
+        }
+        if (this.size == 1) {
+            return pollOnly();
         }
         MyBodyLink oldTail = this.tail;
         this.tail = oldTail.getBefore();
-        if(this.tail != null) {
-            this.tail.setAfter(null);
-        }
+        this.tail.setAfter(null);
         this.size--;
         return oldTail.getBody();
+    }
+
+    private Body pollOnly() {
+        this.size--;
+        Body ret = this.head.getBody();
+        this.head = null;
+        this.tail = null;
+        return ret;
     }
 
     // Inserts the specified element 'body' at the specified position in this list.
     // Precondition: i >= 0 && i <= size().
     public void add(int i, Body body) {
-        if(i < 0 || i > size) {
+        if (i < 0 || i > size) {
             throw new IllegalArgumentException("index must be between 0 and [size]");
         }
-        
-        if(i == 0) {
+
+        if (i == 0) {
             addFirst(body);
             return;
-        } else if(i == size) {
+        } else if (i == size) {
             addLast(body);
             return;
         }
 
         MyBodyLink bodyLink = this.head;
-        for(int a = 0; a < i-1; a++) {
+        for (int a = 0; a < i - 1; a++) {
             bodyLink = bodyLink.getAfter();
         }
-        
+
         MyBodyLink newLink = new MyBodyLink(body, bodyLink, bodyLink.getAfter());
         bodyLink.getAfter().setBefore(newLink);
         bodyLink.setAfter(newLink);
-        
+
         this.size++;
     }
 
     // Returns the element at the specified position in this list.
     // Precondition: i >= 0 && i < size().
     public Body get(int i) {
-        if(i < 0 || i >= size) {
+        if (i < 0 || i >= size) {
             throw new IllegalArgumentException("index must be between 0 and [size]");
         }
         MyBodyLink bodyLink = this.head;
-        for(int a = 0; a < i; a++) {
+        for (int a = 0; a < i; a++) {
             bodyLink = bodyLink.getAfter();
         }
         return bodyLink.getBody();
@@ -140,18 +152,18 @@ public class BodyLinkedList implements Iterable<Body> {
     // Returns the index of the first occurrence of the specified element in this list, or -1 if
     // this list does not contain the element.
     public int indexOf(Body body) {
-        if(size == 0) {
+        if (size == 0) {
             return -1;
         }
         MyBodyLink bodyLink = this.head;
         int index = 0;
         do {
-            if(bodyLink.getBody() == body) {
+            if (bodyLink.getBody() == body) {
                 return index;
             }
             index++;
             bodyLink = bodyLink.getAfter();
-        } while(bodyLink != null);
+        } while (bodyLink != null);
         return -1;
     }
 
@@ -159,14 +171,14 @@ public class BodyLinkedList implements Iterable<Body> {
     // body. Returns a list with all the removed bodies.
     public BodyLinkedList removeCollidingWith(Body body) {
         BodyLinkedList ret = new BodyLinkedList();
-        
+
         MyBodyLink bodyLink = this.head;
         do {
-            if(bodyLink.getBody() != body && bodyLink.getBody().isCollidingWith(body)) {
+            if (bodyLink.getBody() != body && bodyLink.getBody().isCollidingWith(body)) {
                 ret.addLast(bodyLink.getBody());
-                if(bodyLink.getBefore() == null) {
+                if (bodyLink.getBefore() == null) {
                     this.pollFirst();
-                } else if(bodyLink.getAfter() == null) {
+                } else if (bodyLink.getAfter() == null) {
                     this.pollLast();
                 } else {
                     bodyLink.getBefore().setAfter(bodyLink.getAfter());
@@ -175,8 +187,8 @@ public class BodyLinkedList implements Iterable<Body> {
                 }
             }
             bodyLink = bodyLink.getAfter();
-        } while(bodyLink != null);
-        
+        } while (bodyLink != null);
+
         return ret;
     }
 
@@ -204,7 +216,7 @@ public class BodyLinkedList implements Iterable<Body> {
 
         @Override
         public Body next() {
-            if(bodyLink == null) {
+            if (bodyLink == null) {
                 throw new NoSuchElementException();
             }
             Body ret = bodyLink.getBody();

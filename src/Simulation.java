@@ -40,18 +40,18 @@ public class Simulation {
     public static void main(String[] args) {
         // simulation
         CodeDraw cd = new CodeDraw();
-        
+
         BodyQueue bodies = new BodyQueue(NUMBER_OF_BODIES);
         BodyForceMap forceOnBody = new BodyForceMap(NUMBER_OF_BODIES);
-        
+
         // Call program with argument "sol" to run the solar system simulation
         if (args.length > 0 && args[0].equalsIgnoreCase("sol")) {
-            bodies.add(new Body(1.989e30,new Vector3(0,0,0),new Vector3(0,0,0)));
-            bodies.add(new Body(5.972e24,new Vector3(-1.394555e11,5.103346e10,0),new Vector3(-10308.53,-28169.38,0)));
-            bodies.add(new Body(3.301e23,new Vector3(-5.439054e10,9.394878e9,0),new Vector3(-17117.83,-46297.48,-1925.57)));
-            bodies.add(new Body(4.86747e24,new Vector3(-1.707667e10,1.066132e11,2.450232e9),new Vector3(-34446.02,-5567.47,2181.10)));
-            bodies.add(new Body(6.41712e23,new Vector3(-1.010178e11,-2.043939e11,-1.591727E9),new Vector3(20651.98,-10186.67,-2302.79)));
-            for(int i = 0; i < bodies.size(); i++) {
+            bodies.add(new Body(1.989e30, new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
+            bodies.add(new Body(5.972e24, new Vector3(-1.394555e11, 5.103346e10, 0), new Vector3(-10308.53, -28169.38, 0)));
+            bodies.add(new Body(3.301e23, new Vector3(-5.439054e10, 9.394878e9, 0), new Vector3(-17117.83, -46297.48, -1925.57)));
+            bodies.add(new Body(4.86747e24, new Vector3(-1.707667e10, 1.066132e11, 2.450232e9), new Vector3(-34446.02, -5567.47, 2181.10)));
+            bodies.add(new Body(6.41712e23, new Vector3(-1.010178e11, -2.043939e11, -1.591727E9), new Vector3(20651.98, -10186.67, -2302.79)));
+            for (int i = 0; i < bodies.size(); i++) {
                 Body b = bodies.poll();
                 forceOnBody.put(b, new Vector3());
                 bodies.add(b);
@@ -78,7 +78,7 @@ public class Simulation {
 
             // for each body (with index i): compute the total force exerted on it.
             BodyQueue working = new BodyQueue(bodies);
-            while(working.size() != 0) {
+            while (working.size() != 0) {
                 Body b = working.poll();
                 Vector3 force = new Vector3();
                 for (int j = 0; j < bodies.size(); j++) {
@@ -115,9 +115,9 @@ public class Simulation {
                     Body tmpBody = null;
                     for (int i = 0; i < bodies.size(); i++) {
                         Body b = bodies.poll();
-                        if(i == 2) {
+                        if (i == 2) {
                             tmpBody = b;
-                        } else if(i == 4) {
+                        } else if (i == 4) {
                             assert tmpBody != null;
                             tmpBody.switchPositions(b);
                         }

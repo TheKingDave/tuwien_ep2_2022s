@@ -14,6 +14,10 @@ public class Body {
         this.currentMovement = currentMovement;
     }
 
+    public Body(Body body) {
+        this(body.mass, new Vector3(body.massCenter), new Vector3(body.currentMovement));
+    }
+
     // Returns the distance between the mass centers of this body and the specified body 'b'.
     public double distanceTo(Body b) {
         return this.massCenter.distanceTo(b.massCenter);
@@ -72,7 +76,7 @@ public class Body {
         cd.setColor(SpaceDraw.massToColor(mass));
         this.massCenter.drawAsFilledCircle(cd, radius());
     }
-    
+
     public boolean isCollidingWith(Body body) {
         return this.distanceTo(body) < (this.radius() + body.radius());
     }
@@ -90,7 +94,7 @@ public class Body {
     public String toString() {
         return String.format("%f kg, position: %s m, movement: %s m/s", mass, massCenter, currentMovement);
     }
-    
+
     public double mass() {
         return mass;
     }

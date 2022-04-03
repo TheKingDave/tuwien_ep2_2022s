@@ -19,9 +19,13 @@ public class Vector3 {
         this.z = z;
     }
 
+    public Vector3(Vector3 vec) {
+        this(vec.x, vec.y, vec.z);
+    }
+
     // Returns the sum of this vector and vector 'v'.
     public Vector3 plus(Vector3 v) {
-        return new Vector3(this.x + v.x, this.y + v.y, + this.z + v.z);
+        return new Vector3(this.x + v.x, this.y + v.y, +this.z + v.z);
     }
 
     // Returns the product of this vector and 'd'.
