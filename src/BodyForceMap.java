@@ -5,7 +5,6 @@ import java.util.Arrays;
 //
 public class BodyForceMap {
 
-    //TODO: declare variables.
     MyBodyVectorPair[] pairs;
     int size = 0;
 
@@ -51,7 +50,6 @@ public class BodyForceMap {
         int index = right + 1;
         System.arraycopy(pairs, index, pairs, index + 1, size - index);
         pairs[index] = new MyBodyVectorPair(key, force);
-        ;
         size++;
         return null;
     }
@@ -81,4 +79,28 @@ public class BodyForceMap {
         return null;
     }
 
+    public BodyQueue getKeys() {
+        BodyQueue queue = new BodyQueue(size);
+        System.out.println("Size: " + size);
+        for(int i = size-1; i >= 0; i--) {
+            queue.add(pairs[i].getKey());
+        }
+        System.out.println(queue.size());
+        return queue;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < this.size; i++) {
+            MyBodyVectorPair pair = pairs[i];
+            builder.append(pair.getKey().toString());
+            builder.append(": ");
+            builder.append(pair.getValue().toString());
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
 }
