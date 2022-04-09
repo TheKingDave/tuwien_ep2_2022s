@@ -187,7 +187,7 @@ public class BodyLinkedList implements Iterable<Body> {
         BodyLinkedList ret = new BodyLinkedList();
 
         MyBodyLink bodyLink = this.head;
-        do {
+        while (bodyLink != null) {
             if (bodyLink.getBody() != body && bodyLink.getBody().isCollidingWith(body)) {
                 ret.addLast(bodyLink.getBody());
                 if (bodyLink.getBefore() == null) {
@@ -201,7 +201,7 @@ public class BodyLinkedList implements Iterable<Body> {
                 }
             }
             bodyLink = bodyLink.getAfter();
-        } while (bodyLink != null);
+        };
 
         return ret;
     }
