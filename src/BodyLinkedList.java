@@ -21,9 +21,23 @@ public class BodyLinkedList implements Iterable<Body> {
         if (list == null) {
             throw new IllegalArgumentException("List must not be null");
         }
-        this.head = list.head;
-        this.tail = list.tail;
         this.size = list.size;
+        
+        MyBodyLink working = list.head;
+        MyBodyLink last = null;
+        for(int i = 0; i < list.size; i++) {
+            MyBodyLink create = new MyBodyLink(working.getBody(), last, null);
+            if(last != null) {
+                last.setAfter(create);
+            }
+            last = create;
+            if(i == 0) {
+                this.head = create;
+            } else if(i+1 == list.size) {
+                this.tail = create;
+            }
+            working = working.getAfter();
+        }
     }
 
     private void addFirstBody(Body body) {

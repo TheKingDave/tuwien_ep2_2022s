@@ -60,9 +60,12 @@ public class Aufgabe3Test {
         BodyLinkedList blCopy = new BodyLinkedList(bl);
         testComparison(bl, blCopy, false);
         testComparison(bl.pollFirst(), blCopy.pollFirst(), true);
-        bl.addFirst(sun);
+        bl.add(1, sun);
         testValue(bl.size(), 5);
         testValue(blCopy.size(), 4);
+        bl.pollFirst();
+        blCopy.pollFirst();
+        testComparison(bl.pollFirst(), blCopy.pollFirst(), false);
 
         // check basic functions of 'BodyForceTreeMap'
         System.out.println("Test5:");
