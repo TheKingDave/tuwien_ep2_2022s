@@ -45,7 +45,7 @@ public class Vector3 {
         double dY = this.y - v.y;
         double dZ = this.z - v.z;
 
-        return Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+        return Math.sqrt((dX * dX) + (dY * dY) + (dZ * dZ));
     }
 
     // Returns the length (norm) of this vector.
