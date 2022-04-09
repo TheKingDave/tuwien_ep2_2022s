@@ -4,7 +4,7 @@ import javax.swing.tree.TreeNode;
 // The number of key-value pairs is not limited.
 public class BodyForceTreeMap {
 
-    TreeNode root;
+    private TreeNode root;
 
     // Adds a new key-value association to this map. If the key already exists in this map,
     // the value is replaced and the old value is returned. Otherwise 'null' is returned.
