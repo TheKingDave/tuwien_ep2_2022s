@@ -28,11 +28,15 @@ public class Simulation3 {
             seconds++; // each iteration computes the movement of the celestial bodies within one second.
 
             // merge bodies that have collided
-            for (Body b : bodies) {
+            BodyLinkedList iter = bodies;
+            bodies = new BodyLinkedList();
+            
+            for (Body b : iter) {
                 BodyLinkedList removed = bodies.removeCollidingWith(b);
                 for (Body r : removed) {
-                    b.merge(r);
+                    b = b.merge(r);
                 }
+                bodies.addLast(b);
             }
 
             // for each body (with index i): compute the total force exerted on it.

@@ -59,12 +59,15 @@ public class Body {
     // Returns a new body that is formed by the collision of this body and 'b'. The impulse
     // of the returned body is the sum of the impulses of 'this' and 'b'.
     public Body merge(Body b) {
-        double newMass = this.mass + b.mass;
         return new Body(
-                newMass,
-                this.massCenter.times(this.mass).plus(b.massCenter.times(b.mass)).times(1 / newMass),
-                this.currentMovement.times(this.mass).plus(b.currentMovement.times(b.mass)).times(1 / newMass)
+                this.mass + b.mass,
+                calculateWeighted(this.massCenter, this.mass, b.massCenter, b.mass),
+                calculateWeighted(this.currentMovement, this.mass, b.currentMovement, b.mass)
         );
+    }
+    
+    private Vector3 calculateWeighted(Vector3 vectorA, double massA, Vector3 vectorB, double massB) {
+        return vectorA.times(massA).plus(vectorB.times(massB)).times(1 / (massA + massB));
     }
 
     // Draws the body to the specified canvas as a filled circle.
