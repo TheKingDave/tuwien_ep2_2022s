@@ -65,6 +65,10 @@ public class Body {
                 calculateWeighted(this.currentMovement, this.mass, b.currentMovement, b.mass)
         );
     }
+    
+    private Vector3 calculateWeighted(Vector3 vectorA, double massA, Vector3 vectorB, double massB) {
+        return vectorA.times(massA).plus(vectorB.times(massB)).times(1 / (massA + massB));
+    }
 
     public void mergeInPlace(Body b) {
         this.massCenter = calculateWeighted(this.massCenter, this.mass, b.massCenter, b.mass);
