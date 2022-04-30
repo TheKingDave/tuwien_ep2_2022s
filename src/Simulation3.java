@@ -31,7 +31,7 @@ public class Simulation3 {
             for (Body b : bodies) {
                 BodyLinkedList removed = bodies.removeCollidingWith(b);
                 for (Body r : removed) {
-                    b.merge(r);
+                    b.mergeInPlace(r);
                 }
             }
 

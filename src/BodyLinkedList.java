@@ -199,6 +199,7 @@ public class BodyLinkedList implements Iterable<Body> {
                     bodyLink.getAfter().setBefore(bodyLink.getBefore());
                     this.size--;
                 }
+                bodyLink.skip();
             }
             bodyLink = bodyLink.getAfter();
         };
@@ -225,11 +226,14 @@ public class BodyLinkedList implements Iterable<Body> {
 
         @Override
         public boolean hasNext() {
-            return bodyLink != null;
+            return bodyLink != null && (!bodyLink.shouldSkip() || bodyLink.getAfter() != null);
         }
 
         @Override
         public Body next() {
+            if(bodyLink.shouldSkip()) {
+                bodyLink = bodyLink.getAfter();
+            }
             if (bodyLink == null) {
                 throw new NoSuchElementException();
             }

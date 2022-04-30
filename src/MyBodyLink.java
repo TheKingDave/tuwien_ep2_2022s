@@ -2,6 +2,7 @@ public class MyBodyLink {
     private MyBodyLink before;
     private MyBodyLink after;
     private Body body;
+    private boolean skip = false;
 
     public MyBodyLink(Body body, MyBodyLink before, MyBodyLink after) {
         this.before = before;
@@ -31,5 +32,13 @@ public class MyBodyLink {
 
     public void setBody(Body body) {
         this.body = body;
+    }
+
+    public void skip() {
+        this.skip = true;
+    }
+
+    public boolean shouldSkip() {
+        return this.skip;
     }
 }
