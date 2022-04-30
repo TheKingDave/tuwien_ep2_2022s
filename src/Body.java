@@ -107,5 +107,9 @@ public class Body {
     public double mass() {
         return mass;
     }
+
+    public Vector3 massCenter() {
+        return massCenter;
+    }
 }
 

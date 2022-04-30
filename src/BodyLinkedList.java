@@ -13,6 +13,11 @@ public class BodyLinkedList implements Iterable<Body> {
     public BodyLinkedList() {
     }
 
+    // Initializes this with one body
+    public BodyLinkedList(Body body) {
+        this.addFirstBody(body);
+    }
+
     // Initializes 'this' as an independent copy of the specified list 'list'.
     // Calling methods of this list will not affect the specified list 'list'
     // and vice versa.
@@ -22,18 +27,18 @@ public class BodyLinkedList implements Iterable<Body> {
             throw new IllegalArgumentException("List must not be null");
         }
         this.size = list.size;
-        
+
         MyBodyLink working = list.head;
         MyBodyLink last = null;
-        for(int i = 0; i < list.size; i++) {
+        for (int i = 0; i < list.size; i++) {
             MyBodyLink create = new MyBodyLink(working.getBody(), last, null);
-            if(last != null) {
+            if (last != null) {
                 last.setAfter(create);
             }
             last = create;
-            if(i == 0) {
+            if (i == 0) {
                 this.head = create;
-            } else if(i+1 == list.size) {
+            } else if (i + 1 == list.size) {
                 this.tail = create;
             }
             working = working.getAfter();
@@ -68,6 +73,22 @@ public class BodyLinkedList implements Iterable<Body> {
         this.tail = new MyBodyLink(body, oldTail, null);
         oldTail.setAfter(this.tail);
         this.size++;
+    }
+
+    // Add all bodies from otherList, otherList gets destroyed by this function
+    public void addAllLast(BodyLinkedList otherList) {
+        if (this.size == 0) {
+            this.head = otherList.head;
+            this.tail = otherList.tail;
+            this.size = otherList.size;
+        } else {
+            this.tail.setAfter(otherList.head);
+            this.tail = otherList.tail;
+            this.size += otherList.size;
+        }
+        otherList.head = null;
+        otherList.tail = null;
+        otherList.size = 0;
     }
 
     // Returns the last element in this list.
@@ -202,7 +223,8 @@ public class BodyLinkedList implements Iterable<Body> {
                 bodyLink.skip();
             }
             bodyLink = bodyLink.getAfter();
-        };
+        }
+        ;
 
         return ret;
     }
@@ -231,7 +253,7 @@ public class BodyLinkedList implements Iterable<Body> {
 
         @Override
         public Body next() {
-            if(bodyLink.shouldSkip()) {
+            if (bodyLink.shouldSkip()) {
                 bodyLink = bodyLink.getAfter();
             }
             if (bodyLink == null) {
