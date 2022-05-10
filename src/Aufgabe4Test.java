@@ -171,6 +171,11 @@ public class Aufgabe4Test {
         for (int i = 0; i < bodies.length; i++) {
             testValue(bodies[i].massCenter().distanceTo(pairs[i].getMassCenter()),0);
         }
+
+        HierarchicalSystem test = new HierarchicalSystem(new NamedBodyForcePair("Test", 10, new Vector3(), new Vector3()), new NamedBodyForcePair("T1", 10, new Vector3(100, 100, 100), new Vector3()));
+        testValue(test.collidesWith(new NamedBodyForcePair("x", 10, new Vector3(), new Vector3())), true);
+        testValue(test.collidesWith(new NamedBodyForcePair("x", 10, new Vector3(1000, 1000, 1000), new Vector3())), false);
+        testValue(test.collidesWith(new NamedBodyForcePair("x", 10, new Vector3(100, 100, 100), new Vector3())), true);
     }
 
     public static void testComparison(Object first, Object second, boolean expected) {
