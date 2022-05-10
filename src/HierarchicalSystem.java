@@ -81,6 +81,18 @@ public class HierarchicalSystem implements CosmicSystem {
     }
 
     @Override
+    public boolean collidesWith(NamedBodyForcePair b) {
+        for(Body body : b.getBodies()) {
+            for(Body other : this.getBodies()) {
+                if(body.isCollidingWith(other)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void draw(CodeDraw cd) {
         this.central.draw(cd);
         for(CosmicSystem cs : inOrbit) {

@@ -65,6 +65,11 @@ public class NamedBodyForcePair implements CosmicSystem {
     }
 
     @Override
+    public boolean collidesWith(NamedBodyForcePair b) {
+        return this.body.isCollidingWith(b.body);
+    }
+
+    @Override
     public void draw(CodeDraw cd) {
         body.draw(cd);
     }
