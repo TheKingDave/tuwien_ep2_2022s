@@ -23,17 +23,19 @@ public class NamedBody implements Massive {
         return name;
     }
 
-    // Compares `this` with the specified object. Returns `true` if the specified `o` is not
-    // `null` and is of type `NamedBody` and both `this` and `o` have equal names.
-    // Otherwise `false` is returned.
+    @Override
     public boolean equals(Object o) {
-        return o instanceof NamedBody && (o == this || ((NamedBody)o).name.equals(this.name));
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NamedBody namedBody = (NamedBody) o;
+
+        return name.equals(namedBody.name);
     }
 
-    // Returns the hashCode of `this`.
     @Override
     public int hashCode() {
-        return Objects.hash(name, mass, massCenter, currentMovement);
+        return name.hashCode();
     }
 
     // Returns a readable representation including the name of this body.
