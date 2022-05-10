@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class NamedBody implements Massive {
 
-    // TODO: add missing parts of this class.
     private String name;
     private double mass;
     private Vector3 massCenter;
