@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class NamedBody implements Massive {
 
-    private String name;
-    private double mass;
+    private final String name;
+    private final double mass;
     private Vector3 massCenter;
     private Vector3 currentMovement;
 
