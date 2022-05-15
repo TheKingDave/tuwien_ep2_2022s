@@ -63,6 +63,53 @@ public class Simulation5 {
 
         //TODO: implementation of this method according to 'Aufgabenblatt5.md'.
         //  Add both, NamedBody- and Body-objects, to your simulation.
+        MassiveForceHashMap forces = new MassiveForceHashMap();
+        
+        forces.put(sun, new Vector3());
+        forces.put(earth, new Vector3());
+        forces.put(moon, new Vector3());
+        forces.put(mars, new Vector3());
+        forces.put(deimos, new Vector3());
+        forces.put(phobos, new Vector3());
+        forces.put(mercury, new Vector3());
+        forces.put(venus, new Vector3());
+        forces.put(vesta, new Vector3());
+        forces.put(pallas, new Vector3());
+        forces.put(hygiea, new Vector3());
+        forces.put(ceres, new Vector3());
+        
+        for(Massive m : bodies) {
+            forces.put(m, new Vector3());
+        }
+        
 
+        int seconds = 0;
+
+        while (true) {
+            seconds++;
+            
+            // Calculate forces
+            for(Massive m : forces.keyList()) {
+                for(Massive c : forces.keyList()) {
+                    if(m.equals(c)) continue;
+                    
+                    forces.put(m, forces.get(m).plus(m.gravitationalForce(c)));
+                }
+            }
+            
+            // Update
+            for(Massive m : forces.keyList()) {
+                m.move(forces.get(m));
+                forces.put(m, new Vector3());
+            }
+            
+            if (seconds % 3600 == 0) {
+                cd.clear(Color.BLACK);
+                for(Massive m : forces.keyList()) {
+                    m.draw(cd);
+                }
+                cd.show();
+            }
+        }
     }
 }

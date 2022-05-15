@@ -93,27 +93,27 @@ public class MassiveForceHashMap {
         }
 
         public Vector3 get(Massive massive) {
-            if (massive.hashCode() == hash) {
+            if (this.massive.equals(massive)) {
                 return value;
-            } else if (massive.mass() < hash && left != null) {
+            } else if (massive.hashCode() < hash && left != null) {
                 return left.get(massive);
-            } else if (massive.mass() > hash && right != null) {
+            } else if (massive.hashCode() > hash && right != null) {
                 return right.get(massive);
             }
             return null;
         }
 
         public Vector3 add(Massive massive, Vector3 value) {
-            if (massive.mass() == this.hash) {
+            if (this.massive.equals(massive)) {
                 Vector3 ret = this.value;
                 this.value = value;
                 return ret;
-            } else if (massive.mass() < this.hash) {
+            } else if (massive.hashCode() < this.hash) {
                 if (left != null) {
                     return left.add(massive, value);
                 }
                 left = new MassiveNode(massive, value);
-            } else if (massive.mass() > this.hash) {
+            } else if (massive.hashCode() > this.hash) {
                 if (right != null) {
                     return right.add(massive, value);
                 }
