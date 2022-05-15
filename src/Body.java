@@ -1,7 +1,7 @@
 import codedraw.CodeDraw;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
-public class Body {
+public class Body implements Massive {
 
     private double mass;
     private Vector3 massCenter; // position of the mass center.

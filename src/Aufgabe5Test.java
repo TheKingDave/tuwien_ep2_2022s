@@ -2,8 +2,6 @@ public class Aufgabe5Test {
 
     public static void main(String[] args) {
 
-        /* //TODO: uncomment for testing
-
         //test classes NamedBody and MassiveForceHashMap
 
         // create 12 named bodies
@@ -46,8 +44,11 @@ public class Aufgabe5Test {
                 , new Vector3(0.0,0.0,0.0));
         NamedBody earth3 = new NamedBody("Earth", 1, new Vector3(0,0,0), new Vector3(0,0,0));
         testValue(sun1.equals(sun2), true);
+        testValue(sun1.equals(earth3), false);
         testValue(sun1.hashCode(), sun2.hashCode());
+        testComparison(sun1.hashCode(), earth1.hashCode(), false);
         testValue(earth1.equals(earth3), true);
+        testValue(earth1.equals(sun2), false);
         testValue(earth1.hashCode(), earth3.hashCode());
 
         // check basic functions of 'MassiveForceHashMap'
@@ -93,7 +94,6 @@ public class Aufgabe5Test {
         testValue(map.get(earth1), f);
         testValue(map.get(earth2), null);
 
-        */ //TODO: uncomment
     }
 
     public static void testComparison(Object first, Object second, boolean expected) {

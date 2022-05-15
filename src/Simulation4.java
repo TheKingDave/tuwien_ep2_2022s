@@ -46,7 +46,6 @@ public class Simulation4 {
         NamedBodyForcePair hygiea = new NamedBodyForcePair("Hygiea", 8.32E19, new Vector3(-3.983943433707043E11, 2.325833000024021E11, -2.233667695713672E10), new Vector3(-6931.864585548552, -15686.8108598699, -690.5791992347208));
         NamedBodyForcePair ceres = new NamedBodyForcePair("Ceres", 9.394E20, new Vector3(3.781372641419032E11, 1.96718960466285E11, -6.366459168068592E10), new Vector3(-8555.324226752316, 14718.33755980907, 2040.230135060142));
 
-        //TODO: implementation of this method according to 'Aufgabenblatt4.md'.
         HierarchicalSystem hs = new HierarchicalSystem(
                 sun,
                 new HierarchicalSystem(earth, moon),
