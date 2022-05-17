@@ -77,6 +77,15 @@ public class Aufgabe5Test {
 
         System.out.println("Test4:");
         MassiveLinkedList bl = map.keyList();
+
+        MassiveLinkedList test = new MassiveLinkedList(bl);
+        testValue(test.equals(bl), true);
+        testComparison(bl.hashCode(), test.hashCode(), true);
+
+        MassiveLinkedList test2 = new MassiveLinkedList();
+        testValue(test2.equals(bl), false);
+        testComparison(bl.hashCode(), test2.hashCode(), false);
+
         boolean allThere = true;
         while (bl.size() > 0) {
             allThere &= map.containsKey(bl.pollFirst());

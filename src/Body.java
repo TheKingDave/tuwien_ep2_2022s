@@ -1,5 +1,7 @@
 import codedraw.CodeDraw;
 
+import java.util.Objects;
+
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body implements Massive {
 
@@ -110,6 +112,19 @@ public class Body implements Massive {
 
     public Vector3 massCenter() {
         return massCenter;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Body body = (Body) o;
+        return Double.compare(body.mass, mass) == 0 && Objects.equals(massCenter, body.massCenter) && Objects.equals(currentMovement, body.currentMovement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mass, massCenter, currentMovement);
     }
 }
 

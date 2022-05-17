@@ -1,7 +1,5 @@
 import codedraw.CodeDraw;
 
-import java.util.Objects;
-
 public class NamedBody implements Massive {
 
     private final String name;

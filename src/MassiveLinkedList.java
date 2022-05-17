@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 // A list of massive objects implemented as a linked list.
 // The number of elements of the list is not limited.
@@ -194,6 +195,41 @@ public class MassiveLinkedList implements Iterable<Massive> {
             bodyLink = bodyLink.getAfter();
         } while (bodyLink != null);
         return -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MassiveLinkedList massives = (MassiveLinkedList) o;
+        if(size != massives.size) {
+            return false;
+        }
+
+        MassiveLink thisHead = this.head;
+        MassiveLink otherHead = massives.head;
+        for (int i = 0; i < this.size; i++) {
+            if(thisHead.massive != otherHead.massive) {
+                return false;
+            }
+            thisHead = thisHead.getAfter();
+            otherHead = otherHead.getAfter();
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = Objects.hash(size);
+
+        MassiveLink working = this.head;
+        for (int i = 0; i < this.size; i++) {
+            hash = 31*hash + (working.getMassive()==null ? 0 : working.getMassive().hashCode());
+            working = working.getAfter();
+        }
+
+        return Objects.hash(size);
     }
 
     // Returns the number of elements in this list.
