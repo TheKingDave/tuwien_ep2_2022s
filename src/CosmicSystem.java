@@ -2,7 +2,8 @@
 // for computing current mutual forces, updating the positions of bodies and drawing
 // the bodies in a CodeDraw object.
 //
-public interface CosmicSystem extends Drawable {
+public interface 
+CosmicSystem extends Drawable {
 
     // Returns a readable representation of this system.
     String toString();

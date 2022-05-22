@@ -63,6 +63,7 @@ public class Simulation6 {
 
         //TODO: implementation of this method according to 'Aufgabenblatt6.md'.
         //  Add both, NamedBody- and Body-objects, to your simulation.
+        
 
     }
 }

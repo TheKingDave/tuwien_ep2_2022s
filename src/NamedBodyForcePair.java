@@ -20,6 +20,10 @@ public class NamedBodyForcePair implements CosmicSystem {
         return name;
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     @Override
     public Vector3 getMassCenter() {
         return body.massCenter();

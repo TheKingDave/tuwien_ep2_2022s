@@ -5,8 +5,8 @@ import codedraw.CodeDraw;
 // This class implements 'CosmicSystem'.
 //
 public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
-    private NamedBodyForcePair central;
-    private CosmicSystem[] inOrbit;
+    private final NamedBodyForcePair central;
+    private final CosmicSystem[] inOrbit;
     
     // Initializes this system with a name and a central body.
     public HierarchicalSystem(NamedBodyForcePair central, CosmicSystem... inOrbit) {
@@ -114,8 +114,50 @@ public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
         return sb.toString();
     }
 
+    public String iter(CSIter iter, boolean next) {
+        return null;
+    }
+
     @Override
     public MassiveIterator iterator() {
-        return null;
+        return new CSIter(this);
+    }
+
+    static class CSIter implements MassiveIterator{
+        private final HierarchicalSystem hs;
+        private MassiveIterator curIter;
+        private int index = -1;
+
+        public CSIter(HierarchicalSystem hs) {
+            this.hs = hs;
+        }
+
+        @Override
+        public Massive next() {
+            if(index == -1) {
+                index++;
+                return hs.central.getBody();
+            }
+            if(curIter != null) {
+                if(curIter.hasNext()) {
+                    return curIter.next();
+                }
+                curIter = null;
+            }
+            CosmicSystem cs = hs.inOrbit[index++];
+            if(cs instanceof NamedBodyForcePair) {
+                return ((NamedBodyForcePair) cs).getBody();
+            } else if(cs instanceof HierarchicalSystem) {
+                curIter = ((HierarchicalSystem) cs).iterator();
+                return curIter.next();
+            } else {
+                throw new RuntimeException("Not supported type of CosmicSystem");
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return (curIter != null && curIter.hasNext()) || index < hs.inOrbit.length;
+        }
     }
 }
