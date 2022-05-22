@@ -115,6 +115,11 @@ public class Body implements Massive {
     }
 
     @Override
+    public Massive copy() {
+        return new Body(this);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -60,5 +60,7 @@ public interface Massive extends Drawable {
     // on it, and updates the current velocity vector accordingly.
     // (Velocity depends on the mass of 'this', its current velocity and the exerted force.)
     void move(Vector3 force);
+    
+    Massive copy();
 
 }

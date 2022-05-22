@@ -4,7 +4,7 @@ import codedraw.CodeDraw;
 // and an arbitrary number of subsystems (of type 'HierarchicalSystem') in its orbit.
 // This class implements 'CosmicSystem'.
 //
-public class HierarchicalSystem implements CosmicSystem {
+public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
     private NamedBodyForcePair central;
     private CosmicSystem[] inOrbit;
     
@@ -112,5 +112,10 @@ public class HierarchicalSystem implements CosmicSystem {
         sb.setLength(sb.length() - 2);
         sb.append("}");
         return sb.toString();
+    }
+
+    @Override
+    public MassiveIterator iterator() {
+        return null;
     }
 }

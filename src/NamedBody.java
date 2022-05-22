@@ -1,7 +1,6 @@
 import codedraw.CodeDraw;
 
 public class NamedBody implements Massive {
-
     private final String name;
     private final double mass;
     private Vector3 massCenter;
@@ -14,6 +13,13 @@ public class NamedBody implements Massive {
         this.mass = mass;
         this.massCenter = massCenter;
         this.currentMovement = currentMovement;
+    }
+
+    public NamedBody(NamedBody namedBody) {
+        this.name = namedBody.name;
+        this.mass = namedBody.mass;
+        this.massCenter = new Vector3(namedBody.massCenter);
+        this.currentMovement = new Vector3(namedBody.currentMovement);
     }
 
     // Returns the name of the body.
@@ -65,5 +71,10 @@ public class NamedBody implements Massive {
 
         massCenter = newPos;
         currentMovement = newMov;
+    }
+
+    @Override
+    public Massive copy() {
+        return new NamedBody(this);
     }
 }
