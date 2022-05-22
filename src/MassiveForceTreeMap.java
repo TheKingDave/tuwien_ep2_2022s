@@ -44,12 +44,12 @@ public class MassiveForceTreeMap {
     // elements of the returned `MassiveSet` object also affects the keys in this tree map.
     public MassiveSet getKeys() {
         _MassiveSet ms = new _MassiveSet(this);
-        this.root.addKeysToList(ms);
+        if(this.root != null) this.root.addKeysToList(ms);
         return ms;
     }
 
     public void remove(Massive element) {
-        if(this.root != null) this.root.remove(element);
+        if(this.root != null) this.root = this.root.remove(element);
     }
 }
 
@@ -108,26 +108,28 @@ class MassiveTreeNode {
         if(this.right != null) this.right.addKeysToList(set);
     }
     
-    public void remove(Massive key) {
-        if(this.mass > key.mass()) {
+    public MassiveTreeNode remove(Massive key) {
+        if(key.mass() > this.mass) {
             if(right != null) {
-                right.remove(key);
+                this.right = right.remove(key);
             }
         } else {
             if(left != null) {
-                left.remove(key);
+                this.left = left.remove(key);
             }
             if(this.mass == key.mass()) {
                 if(left == null) {
-                    return;
+                    return right;
                 }
                 MassiveTreeNode p = left;
                 while(p.right != null) {
                     p = p.right;
                 }
                 p.right = right;
+                return left;
             }
         }
+        return this;
     }
 
     @Override
