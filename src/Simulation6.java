@@ -63,7 +63,37 @@ public class Simulation6 {
 
         //TODO: implementation of this method according to 'Aufgabenblatt6.md'.
         //  Add both, NamedBody- and Body-objects, to your simulation.
-        
+        MassiveForceTreeMap map = new MassiveForceTreeMap();
+        for(Body b : bodies) {
+            map.put(b, new Vector3());
+        }
+
+        int seconds = 0;
+
+        while (true) {
+            seconds++;
+
+            // Calculate forces
+            for(Massive m : map.getKeys()) {
+                for(Massive c : map.getKeys()) {
+                    if(m.equals(c)) continue;
+
+                    map.put(m, map.get(m).plus(m.gravitationalForce(c)));
+                }
+            }
+
+            // Update
+            for(Massive m : map.getKeys()) {
+                m.move(map.get(m));
+                map.put(m, new Vector3());
+            }
+
+            if (seconds % 3600 == 0) {
+                cd.clear(Color.BLACK);
+                map.getKeys().draw(cd);
+                cd.show();
+            }
+        }
 
     }
 }

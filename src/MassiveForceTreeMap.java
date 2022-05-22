@@ -153,8 +153,9 @@ class _MassiveSet implements MassiveSet {
 
     @Override
     public void draw(CodeDraw cd) {
-        for(Massive m : massives) {
-            m.draw(cd);
+        for(int i = 0; i < this.size; i++) {
+            if(massives[i] == null) break;
+            massives[i].draw(cd);
         }
     }
 
