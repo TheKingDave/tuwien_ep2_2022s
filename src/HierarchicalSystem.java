@@ -1,5 +1,7 @@
 import codedraw.CodeDraw;
 
+import java.util.Iterator;
+
 // A cosmic system that is composed of a central named body (of type 'NamedBodyForcePair')
 // and an arbitrary number of subsystems (of type 'HierarchicalSystem') in its orbit.
 // This class implements 'CosmicSystem'.
@@ -114,6 +116,27 @@ public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
         return sb.toString();
     }
 
+    boolean isEqualTo(MassiveForceTreeMap map) {
+        BodyLinkedList myBodies = getBodies();
+        MassiveSet keySet = map.getKeys();
+
+        if(myBodies.size() != keySet.size()) {
+            return false;
+        }
+
+        for(Massive m : myBodies) {
+            if(!(m instanceof NamedBodyForcePair)) {
+                throw new RuntimeException("Should not happen");
+            }
+            NamedBodyForcePair pair = (NamedBodyForcePair) m;
+            if(!pair.getForce().equals(map.get(m))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public String iter(CSIter iter, boolean next) {
         return null;
     }
@@ -136,7 +159,7 @@ public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
         public Massive next() {
             if(index == -1) {
                 index++;
-                return hs.central.getBody();
+                return hs.central;
             }
             if(curIter != null) {
                 if(curIter.hasNext()) {
@@ -146,7 +169,7 @@ public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
             }
             CosmicSystem cs = hs.inOrbit[index++];
             if(cs instanceof NamedBodyForcePair) {
-                return ((NamedBodyForcePair) cs).getBody();
+                return (NamedBodyForcePair) cs;
             } else if(cs instanceof HierarchicalSystem) {
                 curIter = ((HierarchicalSystem) cs).iterator();
                 return curIter.next();
