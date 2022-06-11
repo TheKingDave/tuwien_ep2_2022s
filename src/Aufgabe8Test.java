@@ -1,13 +1,12 @@
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 
 public class Aufgabe8Test {
 
-    public static void main(String[] args) {
-
-        /* //TODO: uncomment for testing
-
+    public static void main(String[] args) throws IOException {
+        
         MassiveForceTreeMap map = new MassiveForceTreeMap();
         NamedBody mars;
 
@@ -68,7 +67,6 @@ public class Aufgabe8Test {
         }
         testValue(map.getKeys().size(),0);
 
-        */ //TODO: uncomment
     }
 
     public static void testComparison(Object first, Object second, boolean expected) {

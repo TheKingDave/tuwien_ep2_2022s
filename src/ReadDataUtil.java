@@ -20,8 +20,88 @@ public class ReadDataUtil {
     public static boolean readConfiguration(NamedBody b, String path, String day)
             throws IOException {
 
-            // TODO: implement this method.
-            return false;
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new StateFileNotFoundException(file);
+        }
+
+        try (BufferedReader in = new BufferedReader(new FileReader(path))) {
+            int lineNumber = 1;
+            // Ignore all lines before $$SOE
+            while (!in.readLine().equals("$$SOE")) {
+                lineNumber++;
+            }
+
+            DataLine data;
+            String line = in.readLine();
+            lineNumber++;
+            while (!line.equals("$$EOE")) {
+                
+                try {
+                    data = new DataLine(line);
+                } catch (StateFileFormatException e) {
+                    throw new StateFileFormatException(e.getMessage() + " in file " + file.getAbsolutePath() + ":" + lineNumber);
+                }
+                if (data.date.equals(day)) {
+                    b.setState(
+                            new Vector3(data.x, data.y, data.z),
+                            new Vector3(data.vx, data.vy, data.vz)
+                    );
+                    return true;
+                }
+                line = in.readLine();
+                lineNumber++;
+            }
+        }
+
+        return false;
+    }
+
+    static class DataLine {
+        // JDTDB, TIME, X, Y, Z, VX, VY, VZ
+        private final double jdtbd;
+        private final String date;
+        private final double x;
+        private final double y;
+        private final double z;
+        private final double vx;
+        private final double vy;
+        private final double vz;
+
+
+        public DataLine(String str) throws StateFileFormatException {
+            String[] split = str.split(",");
+            if (split.length != 8) {
+                throw new StateFileFormatException("Line does not contain 8 segments. '" + str + "'");
+            }
+            try {
+                this.jdtbd = Double.parseDouble(split[0].trim());
+                this.date = split[1].trim().substring(5, 16);
+                this.x = Double.parseDouble(split[2].trim());
+                this.y = Double.parseDouble(split[3].trim());
+                this.z = Double.parseDouble(split[4].trim());
+                this.vx = Double.parseDouble(split[5].trim());
+                this.vy = Double.parseDouble(split[6].trim());
+                this.vz = Double.parseDouble(split[7].trim());
+            } catch (NumberFormatException e) {
+                throw new StateFileFormatException("Could not parse double: " + e.getMessage());
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "DataLine{" +
+                    "jdtbd=" + jdtbd +
+                    ", time='" + date + '\'' +
+                    ", x=" + x +
+                    ", y=" + y +
+                    ", z=" + z +
+                    ", vx=" + vx +
+                    ", vy=" + vy +
+                    ", vz=" + vz +
+                    '}';
         }
     }
+
+}
 

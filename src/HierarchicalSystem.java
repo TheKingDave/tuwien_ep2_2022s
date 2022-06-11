@@ -1,6 +1,7 @@
 import codedraw.CodeDraw;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 // A cosmic system that is composed of a central named body (of type 'NamedBodyForcePair')
 // and an arbitrary number of subsystems (of type 'HierarchicalSystem') in its orbit.
@@ -157,6 +158,9 @@ public class HierarchicalSystem implements CosmicSystem, MassiveIterable {
 
         @Override
         public Massive next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
             if(index == -1) {
                 index++;
                 return hs.central;

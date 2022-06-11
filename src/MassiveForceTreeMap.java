@@ -1,256 +1,340 @@
 import codedraw.CodeDraw;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 
 // A map that associates an object of 'Massive' with a Vector3. The number of key-value pairs
 // is not limited.
 //
+
 public class MassiveForceTreeMap {
 
-    MassiveTreeNode root;
+    private MyMassiveTreeNode root;
 
     // Adds a new key-value association to this map. If the key already exists in this map,
     // the value is replaced and the old value is returned. Otherwise 'null' is returned.
     // Precondition: key != null.
     public Vector3 put(Massive key, Vector3 value) {
-        if(root == null) {
-            root = new MassiveTreeNode(key, value);
+        if (root == null) {
+            root = new MyMassiveTreeNode(key, value, null, null);
             return null;
         }
-        return root.put(key, value);
+        return root.add(key, value);
     }
 
     // Returns the value associated with the specified key, i.e. the method returns the force vector
     // associated with the specified key. Returns 'null' if the key is not contained in this map.
     // Precondition: key != null.
     public Vector3 get(Massive key) {
-        return root == null ? null : root.get(key);
+        if (!containsKey(key)) {
+            return null;
+        }
+        return root.get(key);
     }
 
     // Returns 'true' if this map contains a mapping for the specified key.
     //Precondition: key != null
     public boolean containsKey(Massive key) {
-        return root != null && root.contains(key);
+        if (root == null) {
+            return false;
+        }
+        return root.containsKey(key);
     }
 
     // Returns a readable representation of this map, in which key-value pairs are ordered
     // descending according to 'key.getMass()'.
     public String toString() {
+        if (root == null) {
+            return "";
+        }
         return root.toString();
     }
 
     // Returns a `MassiveSet` view of the keys contained in this tree map. Changing the
     // elements of the returned `MassiveSet` object also affects the keys in this tree map.
     public MassiveSet getKeys() {
-        _MassiveSet ms = new _MassiveSet(this);
-        if(this.root != null) this.root.addKeysToList(ms);
-        return ms;
+
+        // TODO: implement method.
+        return new MyMassiveSet(this, root);
     }
 
-    public void remove(Massive element) {
-        if(this.root != null) this.root = this.root.remove(element);
+    public int getSize() {
+        if (root == null) return 0;
+        return root.size();
+    }
+
+    public void remove(Massive key) {
+        if (root != null) {
+            if (root.key().equals(key)) {
+                //special case: root needs to be removed
+                MyMassiveTreeNode dummyRoot = new MyMassiveTreeNode(null, null, root, null);
+                root.remove(key, dummyRoot);
+                root = dummyRoot.left();
+            } else {
+                root.remove(key, null);
+            }
+        }
+    }
+
+    public void clear() {
+        root = null;
+    }
+
+
+    //additional method to visualize tree
+    public void drawTree() {
+        CodeDraw cd = new CodeDraw(1000, 500);
+        if (root == null) {
+            cd.drawText(200, 50, "Empty tree");
+        } else {
+            root.draw(cd, 500, 10);
+        }
+        cd.show();
     }
 }
 
-class MassiveTreeNode {
-    private final Massive massive;
-    private final double mass;
+class MyMassiveTreeNode {
+    private MyMassiveTreeNode left;
+    private MyMassiveTreeNode right;
+    private Massive key;
     private Vector3 value;
-    private MassiveTreeNode left, right;
 
-    MassiveTreeNode(Massive massive, Vector3 value) {
-        this.massive = massive;
+    public MyMassiveTreeNode(Massive key, Vector3 value, MyMassiveTreeNode left, MyMassiveTreeNode right) {
+        this.key = key;
         this.value = value;
-        this.mass = massive.mass();
+        this.left = left;
+        this.right = right;
     }
-    
-    public Vector3 put(Massive key, Vector3 value) {
-        if(key == this.massive) {
-            Vector3 old = this.value;
+
+    public Vector3 add(Massive key, Vector3 value) {
+        if (key == this.key) {
+            Vector3 oldValue = this.value;
             this.value = value;
-            return old;
+            return oldValue;
         }
-        if(key.mass() < this.mass) {
-            if(left == null) {
-                left = new MassiveTreeNode(key, value);
+
+        if (key.mass() < this.key.mass()) {
+            if (left == null) {
+                left = new MyMassiveTreeNode(key, value, null, null);
                 return null;
+            } else {
+                return left.add(key, value);
             }
-            return left.put(key, value);
         } else {
-            if(right == null) {
-                right = new MassiveTreeNode(key, value);
+            if (right == null) {
+                right = new MyMassiveTreeNode(key, value, null, null);
                 return null;
+            } else {
+                return right.add(key, value);
             }
-            return right.put(key, value);
         }
     }
-    
+
     public Vector3 get(Massive key) {
-        if(key == this.massive) {
+        if (key == this.key) {
             return value;
         }
-        MassiveTreeNode n = key.mass() < this.mass ? this.left : this.right;
-        return n == null ? null : n.get(key);
+
+        if (key.mass() < this.key.mass()) {
+            if (left == null) {
+                return null;
+            }
+            return left.get(key);
+        } else {
+            if (right == null) {
+                return null;
+            }
+            return right.get(key);
+        }
+
     }
 
-    public boolean contains(Massive key) {
-        if(key == this.massive) {
+    public String toString() {
+        String result;
+        result = right == null ? "" : right.toString();
+        result += "(" + this.key + "|" + this.value + ")\n";
+        result += left == null ? "" : left.toString();
+        return result;
+    }
+
+    public boolean containsKey(Massive key) {
+        if (key.equals(this.key)) {
             return true;
         }
-        MassiveTreeNode n = key.mass() < this.mass ? this.left : this.right;
-        return n != null && n.contains(key);
+        if (key.mass() < this.key.mass()) {
+            if (left == null) {
+                return false;
+            }
+            return left.containsKey(key);
+        } else {
+            if (right == null) {
+                return false;
+            }
+            return right.containsKey(key);
+        }
     }
-    
-    public void addKeysToList(_MassiveSet set) {
-        if(this.left != null) this.left.addKeysToList(set);
-        set.add(this.massive);
-        if(this.right != null) this.right.addKeysToList(set);
+
+    public int size() {
+        int sum = 1;
+        if (left != null) sum += left.size();
+        if (right != null) sum += right.size();
+        return sum;
     }
-    
-    public MassiveTreeNode remove(Massive key) {
-        if(key.mass() > this.mass) {
-            if(right != null) {
-                this.right = right.remove(key);
+
+    public MyMassiveTreeNode left() {
+        return left;
+    }
+
+    public MyMassiveTreeNode right() {
+        return right;
+    }
+
+    public MyMassiveTreeIterator iterator() {
+        return new MyMassiveTreeIterator(this);
+    }
+
+    public Massive key() {
+        return key;
+    }
+
+    public void remove(Massive key, MyMassiveTreeNode parent) {
+        if (key.mass() < this.key.mass()) {
+            if (left != null) {
+                left.remove(key, this);
+            }
+        } else if (key.mass() > this.key.mass()) {
+            if (right != null) {
+                right.remove(key, this);
             }
         } else {
-            if(left != null) {
-                this.left = left.remove(key);
-            }
-            if(this.mass == key.mass()) {
-                if(left == null) {
-                    return right;
-                }
-                MassiveTreeNode p = left;
-                while(p.right != null) {
-                    p = p.right;
-                }
-                p.right = right;
-                return left;
+            if (left != null && right != null) {
+                this.key = right.minKey();
+                right.remove(this.key, this);
+            } else if (parent.left == this) {
+                parent.left = (left != null) ? left : right;
+            } else if (parent.right == this) {
+                parent.right = (left != null) ? left : right;
             }
         }
-        return this;
     }
 
-    @Override
-    public String toString() {
-        String ret = "";
-        if(left != null) ret += left.toString();
-        ret += this.massive.toString() + "\n";
-        if(right != null) ret += right.toString();
-        return ret;
+    public void draw(CodeDraw cd, double x, double y) {
+        cd.fillCircle(x, y, 10);
+        cd.getTextFormat().setFontSize(12);
+        cd.drawText(x + 10, y, key.toString());
+        if (left != null) {
+            cd.drawLine(x, y, x - 60, y + 60);
+            left.draw(cd, x - 60, y + 60);
+        }
+        if (right != null) {
+            cd.drawLine(x, y, x + 60, y + 60);
+            right.draw(cd, x + 60, y + 60);
+        }
     }
+
+    private Massive minKey() {
+        if (left == null) {
+            return this.key;
+        }
+        return left.minKey();
+    }
+
 }
 
-class _MassiveSet implements MassiveSet {
-    MassiveForceTreeMap massiveForceTreeMap;
-    Massive[] massives = new Massive[10];
-    int size = 0;
+class MyMassiveSet implements MassiveSet {
 
-    public _MassiveSet(MassiveForceTreeMap massiveForceTreeMap) {
-        this.massiveForceTreeMap = massiveForceTreeMap;
+    private MassiveForceTreeMap map;
+    private MyMassiveTreeNode root;
+
+    public MyMassiveSet(MassiveForceTreeMap map, MyMassiveTreeNode root) {
+        this.map = map;
+        this.root = root;
     }
 
     @Override
     public void draw(CodeDraw cd) {
-        for(int i = 0; i < this.size; i++) {
-            if(massives[i] == null) break;
-            massives[i].draw(cd);
+        for (Massive m : this) {
+            m.draw(cd);
         }
-    }
-
-    @Override
-    public boolean contains(Massive element) {
-        for(int i = 0; i < this.size; i++) {
-            if(massives[i].equals(element)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void remove(Massive element) {
-        if(this.size <= 0) return;
-        
-        int index = -1;
-        for(int i = 0; i < this.size; i++) {
-            if(massives[i].equals(element)) {
-                index = i;
-                break;
-            }
-        }
-        
-        if(index < 0) return;
-
-        System.arraycopy(massives, index, massives, index-1, size - index - 1);
-        this.massiveForceTreeMap.remove(element);
-        
-        this.massives[size-1] = null;
-        this.size--;
-    }
-
-    @Override
-    public void clear() {
-        for(int i = 0; i < this.size; i++) {
-            this.massiveForceTreeMap.remove(this.massives[i]);
-        }
-        this.massives = new Massive[10];
-        this.size = 0;
-    }
-    
-    public void add(Massive massive) {
-        if(this.contains(massive)) {
-            return;
-        }
-        if (size + 1 >= massives.length) {
-            massives = Arrays.copyOf(massives, massives.length * 2);
-        }
-        massives[size++] = massive;
-    }
-    
-    public Massive get(int index) {
-        if(index < this.size) {
-            return massives[index];
-        }
-        return null;
-    }
-
-    @Override
-    public int size() {
-        return size;
     }
 
     @Override
     public MassiveIterator iterator() {
-        return new _MassiveIterator(this);
+        return new MyMassiveTreeIterator(root);
+    }
+
+    @Override
+    public boolean contains(Massive element) {
+        return map.containsKey(element);
+    }
+
+    @Override
+    public void remove(Massive element) {
+        map.remove(element);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public int size() {
+        return map.getSize();
     }
 
     @Override
     public MassiveLinkedList toList() {
         MassiveLinkedList list = new MassiveLinkedList();
-        for(int i = 0; i < this.size; i++) {
-            list.addLast(massives[i].copy());
+        for (Massive m : this) {
+            list.addLast(m);
         }
         return list;
     }
 }
 
-class _MassiveIterator implements MassiveIterator {
-    private final _MassiveSet src;
-    private int i = 0;
+class MyMassiveTreeIterator implements MassiveIterator {
 
-    public _MassiveIterator(_MassiveSet src) {
-        this.src = src;
+    MyMassiveTreeNode node;
+    MyMassiveTreeIterator iterLeft, iterRight;
+
+    public MyMassiveTreeIterator(MyMassiveTreeNode node) {
+        this.node = node;
+        if (node != null) {
+            if (node.left() != null) {
+                iterLeft = node.left().iterator();
+            }
+            if (node.right() != null) {
+                iterRight = node.right().iterator();
+            }
+        }
     }
+
 
     @Override
     public Massive next() {
-        return src.get(i++);
+        if (!hasNext()) {
+            throw new IllegalStateException();
+        }
+        if (node != null) {
+            Massive toReturn = node.key();
+            node = null;
+            return toReturn;
+        }
+        if (iterLeft != null && iterLeft.hasNext()) {
+            return iterLeft.next();
+        }
+        return iterRight.next();
     }
 
     @Override
     public boolean hasNext() {
-        return this.i < this.src.size();
+        return (node != null || (iterLeft != null && iterLeft.hasNext()) || (iterRight != null && iterRight.hasNext()));
+    }
+
+    @Override
+    public void remove() {
+        
     }
 }

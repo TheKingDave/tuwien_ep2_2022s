@@ -22,6 +22,11 @@ public class NamedBody implements Massive {
         this.currentMovement = new Vector3(namedBody.currentMovement);
     }
 
+    public void setState(Vector3 position, Vector3 velocity) {
+        this.massCenter = position;
+        this.currentMovement = velocity;
+    }
+
     // Returns the name of the body.
     public String getName() {
         return name;
@@ -43,10 +48,15 @@ public class NamedBody implements Massive {
     }
 
     // Returns a readable representation including the name of this body.
+    @Override
     public String toString() {
-        return this.name;
+        return "NamedBody{" +
+                "name='" + name + '\'' +
+                ", mass=" + mass +
+                ", massCenter=" + massCenter +
+                ", currentMovement=" + currentMovement +
+                '}';
     }
-
 
     @Override
     public void draw(CodeDraw cd) {

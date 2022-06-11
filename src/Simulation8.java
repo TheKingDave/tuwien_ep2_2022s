@@ -49,6 +49,7 @@ public class Simulation8 {
         map.put(new NamedBody("Ceres1", 9.394E20, new Vector3(0, 0, 0), new Vector3(0, 0, 0)),
                 new Vector3(0, 0, 0));
 
+        
 
         //TODO: implementation of this method according to 'Aufgabenblatt8.md'.
 
